@@ -9,8 +9,8 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig
-	DB     DBConfig
+	Server ServerConfig `koanf:"server"`
+	DB     DBConfig     `koanf:"database"`
 }
 
 type ServerConfig struct {
@@ -26,7 +26,7 @@ type DBConfig struct {
 
 func DefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
-		Port: ":8080",
+		Port: "8080",
 		WriteTimeout: 15,
 		ReadTimeout:  15,
 		IdleTimeout:  60,
@@ -39,6 +39,13 @@ func DefaultDBConfig() *DBConfig {
 	}
 }
 
+func DefaultConfig() *Config {
+	return &Config{
+		Server: *DefaultServerConfig(),
+		DB: *DefaultDBConfig(),
+	}
+}
+
 func LoadConfig() *Config {
 	k := koanf.New(".")
 
@@ -46,9 +53,9 @@ func LoadConfig() *Config {
 		log.Fatalf("Error loading config: %v", err)
 	}
 
-	var cfg *Config
+	cfg := DefaultConfig()
 	if err := k.Unmarshal("", cfg); err != nil {
-		log.Printf("Error unmarshalling: \n%s", err)
+		log.Fatalf("Error unmarshalling: %v", err)
 	}
 
 	return cfg
