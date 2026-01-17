@@ -9,3 +9,6 @@ Files will be temporary by default, logged in users can make their persisted.
 - Non-Functional Requirements
 Rate-limits by IP, Account & Browser Session 
 Support 10k concurrent uploads
+
+Milestones
+- Basic anonymouse uploads, no auth, all public

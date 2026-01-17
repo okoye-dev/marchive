@@ -25,11 +25,6 @@ func NewRouter() *chi.Mux {
 }
 
 func RegisterRoutes(r chi.Router) {
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Hello, World!"))
-	})
-
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Route("/files", func(r chi.Router) {
 			r.Get("/", handleFiles)
@@ -38,6 +33,5 @@ func RegisterRoutes(r chi.Router) {
 }
 
 func handleFiles(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Hello, these are your files!"))
+	Success(w, "Files handled")
 }

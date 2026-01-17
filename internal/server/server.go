@@ -23,5 +23,6 @@ func NewServer(cfg *config.Config) *Server {
 
 func (s *Server) Start() error {
 	log.Printf("Starting server on port %s\n", s.cfg.Server.Port)
+	
 	return http.ListenAndServe(":"+s.cfg.Server.Port, s.Router)
 }
