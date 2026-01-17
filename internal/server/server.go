@@ -14,14 +14,14 @@ type Server struct {
 	Router *chi.Mux
 }
 
-func NewServer() *Server {
+func NewServer(cfg *config.Config) *Server {
 	return &Server{
-		cfg: config.DefaultConfig(),
+		cfg: cfg,
 		Router: api.NewRouter(),
 	}
 }
 
 func (s *Server) Start() error {
-	log.Printf("Starting server on port %s\n", s.cfg.Port)
-	return http.ListenAndServe(":"+s.cfg.Port, s.Router)
+	log.Printf("Starting server on port %s\n", s.cfg.Server.Port)
+	return http.ListenAndServe(":"+s.cfg.Server.Port, s.Router)
 }

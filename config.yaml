@@ -1,0 +1,8 @@
+server:
+  port: ":8080"
+  read_timeout: 15
+  write_timeout: 15
+  idle_timeout: 60
+
+database:
+  dsn: "postgres://postgres:password@localhost:5432/postgres"
