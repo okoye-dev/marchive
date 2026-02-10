@@ -11,6 +11,7 @@ type ObjectStorage interface {
 	Upload(ctx context.Context, bucket, key string, body io.Reader) error
 	Download(ctx context.Context, bucket, key string) (io.ReadCloser, error)
 	Delete(ctx context.Context, bucket, key string) error
+	List(ctx context.Context, bucket, prefix string) ([]string, error)
 }
 
 // FileService is the high-level service that uses ObjectStorage
@@ -38,4 +39,9 @@ func (fs *FileService) DownloadFile(ctx context.Context, bucket, key string) (io
 // DeleteFile deletes a file using the storage interface
 func (fs *FileService) DeleteFile(ctx context.Context, bucket, key string) error {
 	return fs.storage.Delete(ctx, bucket, key)
+}
+
+// ListFiles lists keys in a bucket matching prefix.
+func (fs *FileService) ListFiles(ctx context.Context, bucket, prefix string) ([]string, error) {
+	return fs.storage.List(ctx, bucket, prefix)
 }

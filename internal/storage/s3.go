@@ -42,3 +42,10 @@ func (s *S3Client) Delete(ctx context.Context, bucket, key string) error {
 	// Using AWS SDK: s3.DeleteObject, etc.
 	return nil
 }
+
+// List implements files.ObjectStorage interface
+func (s *S3Client) List(ctx context.Context, bucket, prefix string) ([]string, error) {
+	// TODO: Implement AWS S3 list logic
+	// Using AWS SDK: s3.ListObjectsV2, etc.
+	return nil, nil
+}

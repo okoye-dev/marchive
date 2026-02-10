@@ -5,7 +5,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func NewRouter() *chi.Mux {
+func NewRouter(h *Handlers) *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
@@ -18,18 +18,21 @@ func NewRouter() *chi.Mux {
 	r.Use(middleware.SetHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"))
 	r.Use(middleware.SetHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"))
 
-	RegisterRoutes(r)
+	RegisterRoutes(r, h)
 
 	return r
 }
 
-func RegisterRoutes(r chi.Router) {
+func RegisterRoutes(r chi.Router, h *Handlers) {
 	r.Get("/healthz", handleHealth)
 	r.Get("/readyz", handleReady)
 
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Route("/files", func(r chi.Router) {
-			r.Get("/", handleFiles)
+			r.Get("/", h.handleFilesList)
+			r.Post("/", h.handleFilesUpload)
+			r.Get("/{key}", h.handleFilesDownload)
+			r.Delete("/{key}", h.handleFilesDelete)
 		})
 	})
 }

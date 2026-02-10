@@ -13,6 +13,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/okoye-dev/marchive/internal/api"
 	"github.com/okoye-dev/marchive/internal/config"
+	"github.com/okoye-dev/marchive/internal/files"
+	"github.com/okoye-dev/marchive/internal/storage"
 )
 
 type Server struct {
@@ -21,9 +23,16 @@ type Server struct {
 }
 
 func NewServer(cfg *config.Config) *Server {
+	localStorage := storage.NewLocalClient(cfg.Storage.Root)
+	fileService := files.NewFileService(localStorage)
+	handlers := &api.Handlers{
+		Files:         fileService,
+		DefaultBucket: cfg.Storage.DefaultBucket,
+	}
+
 	return &Server{
 		cfg:    cfg,
-		Router: api.NewRouter(),
+		Router: api.NewRouter(handlers),
 	}
 }
 

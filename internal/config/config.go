@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig `koanf:"server"`
-	DB     DBConfig     `koanf:"database"`
+	Server  ServerConfig  `koanf:"server"`
+	DB      DBConfig      `koanf:"database"`
+	Storage StorageConfig `koanf:"storage"`
 }
 
 type ServerConfig struct {
@@ -23,6 +24,11 @@ type ServerConfig struct {
 
 type DBConfig struct {
 	DSN string `koanf:"dsn"`
+}
+
+type StorageConfig struct {
+	Root          string `koanf:"root"`
+	DefaultBucket string `koanf:"default_bucket"`
 }
 
 func DefaultServerConfig() *ServerConfig {
@@ -43,8 +49,16 @@ func DefaultDBConfig() *DBConfig {
 
 func DefaultConfig() *Config {
 	return &Config{
-		Server: *DefaultServerConfig(),
-		DB:     *DefaultDBConfig(),
+		Server:  *DefaultServerConfig(),
+		DB:      *DefaultDBConfig(),
+		Storage: DefaultStorageConfig(),
+	}
+}
+
+func DefaultStorageConfig() StorageConfig {
+	return StorageConfig{
+		Root:          "data",
+		DefaultBucket: "files",
 	}
 }
 
