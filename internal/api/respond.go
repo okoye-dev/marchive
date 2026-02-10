@@ -21,3 +21,7 @@ func OK(w http.ResponseWriter) {
 func Success(w http.ResponseWriter, msg interface{}) {
 	JSON(w, http.StatusOK, msg)
 }
+
+func Error(w http.ResponseWriter, status int, msg string) {
+	JSON(w, status, ErrorResponse{Error: msg})
+}
