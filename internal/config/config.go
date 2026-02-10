@@ -14,10 +14,11 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Port string `koanf:"port"`
-	WriteTimeout int `koanf:"write_timeout"`
-	ReadTimeout int `koanf:"read_timeout"`
-	IdleTimeout int `koanf:"idle_timeout"`
+	Port            string `koanf:"port"`
+	WriteTimeout    int    `koanf:"write_timeout"`
+	ReadTimeout     int    `koanf:"read_timeout"`
+	IdleTimeout     int    `koanf:"idle_timeout"`
+	ShutdownTimeout int    `koanf:"shutdown_timeout"`
 }
 
 type DBConfig struct {
@@ -26,10 +27,11 @@ type DBConfig struct {
 
 func DefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
-		Port: "8080",
-		WriteTimeout: 15,
-		ReadTimeout:  15,
-		IdleTimeout:  60,
+		Port:            "8080",
+		WriteTimeout:    15,
+		ReadTimeout:     15,
+		IdleTimeout:     60,
+		ShutdownTimeout: 10,
 	}
 }
 
@@ -42,7 +44,7 @@ func DefaultDBConfig() *DBConfig {
 func DefaultConfig() *Config {
 	return &Config{
 		Server: *DefaultServerConfig(),
-		DB: *DefaultDBConfig(),
+		DB:     *DefaultDBConfig(),
 	}
 }
 
